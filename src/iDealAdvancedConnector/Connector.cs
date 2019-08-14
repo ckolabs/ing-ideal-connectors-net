@@ -322,7 +322,7 @@ namespace iDealAdvancedConnector
 
             // Serialize the request to an XML string
             string xmlRequest = SerializationHelper.SerializeObject<AcquirerStatusReq>(request);
-
+            
             var xmlDoc = new XmlDocument();
             xmlDoc.LoadXml(xmlRequest);
 
@@ -473,13 +473,11 @@ namespace iDealAdvancedConnector
             {
                 using (XmlReader reader = XmlReader.Create(rdr, settings))
                 {
-                    xmlDoc.Load(reader);
+                    xmlDoc.Load(reader); 
+                    xmlDoc.Schemas.Add(XsdValidation.AllSchemas);
+                    xmlDoc.Validate(this.ValidationError);
                 }
             }
-
-            xmlDoc.Schemas.Add(XsdValidation.AllSchemas);
-
-            xmlDoc.Validate(this.ValidationError);
 
             // Check validation error list
             if (validationErrors.Count > 0)
