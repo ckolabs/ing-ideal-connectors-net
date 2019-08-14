@@ -17,16 +17,13 @@ namespace iDealAdvancedConnector.Security
     /// </summary>
     class XsdValidation
     {
-        static XmlSchemaSet allSchemas;
-        static readonly String Namespace = "iDealAdvancedConnector.Messages.";
-
         /// <summary>
-        /// Static ctor
+        /// Returns a collection of schemas
         /// </summary>
-        static XsdValidation()
-        {
-            allSchemas = GetXsdSet(new[] { "itt-acq.xsd", "xmldsigcore-schema.xsd" });
-        }
+        /// <returns></returns>
+        public static XmlSchemaSet CreateXmlSchemaSet() => GetXsdSet(new[] { "itt-acq.xsd", "xmldsigcore-schema.xsd" });
+        
+        static readonly String Namespace = "iDealAdvancedConnector.Messages.";
 
         /// <summary>
         /// Gets xsd file from disk
@@ -34,7 +31,7 @@ namespace iDealAdvancedConnector.Security
         /// <param name="xsdFileName"></param>
         /// <returns></returns>
         static XmlReader GetXsdFile(string xsdFileName)
-        {          
+        {
             var assembly = Assembly.GetAssembly(typeof(Connector));
             var stream = assembly.GetManifestResourceStream(Namespace + xsdFileName);
 
@@ -62,17 +59,6 @@ namespace iDealAdvancedConnector.Security
                 xsd.Add(schema);
             });
             return xsd;
-        }
-
-        /// <summary>
-        /// Returns a collection of schemas
-        /// </summary>
-        public static XmlSchemaSet AllSchemas
-        {
-            get
-            {
-                return allSchemas;
-            }
         }
     }
 }

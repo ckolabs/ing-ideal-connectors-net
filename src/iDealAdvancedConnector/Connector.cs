@@ -474,7 +474,7 @@ namespace iDealAdvancedConnector
                 using (XmlReader reader = XmlReader.Create(rdr, settings))
                 {
                     xmlDoc.Load(reader); 
-                    xmlDoc.Schemas.Add(XsdValidation.AllSchemas);
+                    xmlDoc.Schemas = XsdValidation.CreateXmlSchemaSet();
                     xmlDoc.Validate(this.ValidationError);
                 }
             }
