@@ -65,7 +65,7 @@ namespace iDealAdvancedConnector.Security
             // Compilation of XmlSchemaSet is not thread safe, so we need to cache it in the compiled state,
             // to prevent it being compiled by multiple threads in parallel during validation.
 
-            // According to MSDN (https://docs.microsoft.com/de-de/dotnet/api/system.xml.schema.xmlschemaset.compile):
+            // According to MSDN (http://docs.microsoft.com/dotnet/api/system.xml.schema.xmlschemaset.compile?view=netstandard-2.0):
             // 1. Compile is called automatically when validation is needed and the XmlSchemaSet has not been previously compiled
             // 2. If the XmlSchemaSet is already in the compiled state, this method will not recompile the schemas
 
