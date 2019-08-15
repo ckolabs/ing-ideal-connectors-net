@@ -61,6 +61,9 @@ namespace iDealAdvancedConnector.Security
                 var schema = XmlSchema.Read(GetXsdFile(s), delegate { });
                 xsd.Add(schema);
             });
+
+            // compile xml schema set, to prevent the compilation is called again
+            xsd.Compile();
             return xsd;
         }
 
