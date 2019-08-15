@@ -165,14 +165,16 @@ namespace iDealAdvancedConnector
 
             xmlRequest = xmlDoc.OuterXml;
 
+            var xmlSchemaSet = XsdValidation.CreateXmlSchemaSet();
+
             // Validate the request before sending it to the service
-            ValidateXML(xmlRequest);
+            ValidateXML(xmlRequest, xmlSchemaSet);
 
             // Send request / get respons
             string xmlResponse = await GetReplyFromAcquirer(xmlRequest, merchantConfig.acquirerUrlDIR);
 
             // Validate respons
-            ValidateXML(xmlResponse);
+            ValidateXML(xmlResponse, xmlSchemaSet);
 
             if (!XmlSignature.XmlSignature.CheckSignature(xmlResponse, (RSA)merchantConfig.aquirerCertificate.PublicKey.Key))
             {
@@ -252,14 +254,16 @@ namespace iDealAdvancedConnector
 
             xmlRequest = xmlDoc.OuterXml;
 
+            var xmlSchemaSet = XsdValidation.CreateXmlSchemaSet();
+
             // Validate the request before sending it to the service
-            ValidateXML(xmlRequest);
+            ValidateXML(xmlRequest, xmlSchemaSet);
 
             // Send request / get respons
             string xmlRespons = await GetReplyFromAcquirer(xmlRequest, merchantConfig.acquirerUrlTRA);
 
             // Validate respons
-            ValidateXML(xmlRespons);
+            ValidateXML(xmlRespons, xmlSchemaSet);
 
             if (!XmlSignature.XmlSignature.CheckSignature(xmlRespons, (RSA)merchantConfig.aquirerCertificate.PublicKey.Key))
             {
@@ -330,14 +334,16 @@ namespace iDealAdvancedConnector
 
             xmlRequest = xmlDoc.OuterXml;
 
+            var xmlSchemaSet = XsdValidation.CreateXmlSchemaSet();
+
             // Validate the request before sending it to the service
-            ValidateXML(xmlRequest);
+            ValidateXML(xmlRequest, xmlSchemaSet);
 
             // Send request / get respons
             string xmlResponse = await GetReplyFromAcquirer(xmlRequest, merchantConfig.acquirerUrlSTA);
 
             // Validate respons
-            ValidateXML(xmlResponse);
+            ValidateXML(xmlResponse, xmlSchemaSet);
 
             if (!XmlSignature.XmlSignature.CheckSignature(xmlResponse, (RSA)merchantConfig.aquirerCertificate.PublicKey.Key))
             {
@@ -456,7 +462,7 @@ namespace iDealAdvancedConnector
         /// </summary>
         /// <param name="xml">Xml to validate.</param>
         /// <exception cref="XmlSchemaValidationException">Schema validation error.</exception>
-        private void ValidateXML(string xml)
+        private void ValidateXML(string xml, XmlSchemaSet mlSchemaSet)
         {
             // Reset validation error list
             validationErrors = new List<string>();
@@ -474,7 +480,7 @@ namespace iDealAdvancedConnector
                 using (XmlReader reader = XmlReader.Create(rdr, settings))
                 {
                     xmlDoc.Load(reader); 
-                    xmlDoc.Schemas = XsdValidation.CreateXmlSchemaSet();
+                    xmlDoc.Schemas = mlSchemaSet;
                     xmlDoc.Validate(this.ValidationError);
                 }
             }
